@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  title: Joke API
+  version: 1.0.0
+  description: API for managing jokes
+servers:
+  - url: https://jokeapi-er6jzgdkjq-ew.a.run.app
+paths:
+  /jokes:
+    get:
+      summary: Get all jokes
+      responses:
+        '200':
+          description: A list of jokes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    joke:
+                      type: string
+                    punchline:
+                      type: string
+                    rating:
+                      type: number
+    post:
+      summary: Create a new joke
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                joke:
+                  type: string
+                punchline:
+                  type: string
+                rating:
+                  type: number
+      responses:
+        '201':
+          description: Joke created successfully
+        '400':
+          description: Invalid request body
+  /jokes/{id}:
+    get:
+      summary: Get a joke by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A joke
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  joke:
+                    type: string
+                  punchline:
+                    type: string
+                  rating:
+                    type: number
+        '404':
+          description: Joke not found
+  /rate/{id}: 
+    put:
+      summary: Update a rating of joke by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating:
+                  type: number
+      responses:
+        '200':
+          description: Joke updated successfully
+        '400':
+          description: Invalid request body
+        '404':
+          description: Joke not found
+
